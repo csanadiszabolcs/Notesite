@@ -1,0 +1,36 @@
+.sidenav-container {
+    height: 100vh;
+  }
+  
+  .sidenav {
+    width: 250px;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .desktop-menu {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .mobile-toggle {
+    display: none;
+  }
+mat-nav-list {
+    min-width: 200px;
+    background-color: rgb(245, 172, 172);
+  
+}
+  
+  @media (max-width: 768px) {
+    .desktop-menu {
+      display: none;
+    }
+  
+    .mobile-toggle {
+      display: inline-flex;
+    }
+  }
+  

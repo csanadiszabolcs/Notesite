@@ -1,0 +1,38 @@
+<div class="container mat-elevation-z2" style="padding: 2rem; max-width: 400px; margin: auto;">
+  <h2>Bejelentkezés</h2>
+    
+  @if (isLoading) {
+    <div class="container">
+      <h2>Pillanat türelmét kérem..</h2>
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  }
+
+  @if (showLoginForm) {
+  <form class="loginform" (ngSubmit)="login()" #loginForm="ngForm">
+    
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [formControl]="email">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Jelszó</mat-label>
+      <input matInput type="password" [formControl]="password" >
+    
+    </mat-form-field>
+
+    @if (loginError) {
+      <div class="error-message">
+        {{ loginError }}
+      </div>
+    }
+
+    <div style="text-align: right; margin-top: 1rem;">
+      <button mat-raised-button color="primary" type="submit">Bejelentkezés</button>
+      <button mat-flat-button [routerLink]="['/registration']">Regisztrálj</button>
+    </div>
+
+  </form>
+}
+</div>

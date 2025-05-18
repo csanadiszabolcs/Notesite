@@ -1,0 +1,31 @@
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    text-align: center;
+  
+    mat-card {
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+  }
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin: 10px;
+  }
+  
+  .button-group button {
+    padding: 8px 16px;
+    background-color: rgb(245, 172, 172);
+    border: 1px solid rgb(245, 172, 172);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .button-group button.active {
+    background-color: #980958;
+    color: white;
+  }

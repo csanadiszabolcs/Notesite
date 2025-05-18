@@ -1,0 +1,17 @@
+<div class="container mat-elevation-z2" style="padding: 2rem; text-align: center;">
+  <h2 class="titleHome">Üdvözlöm a jegyzetelés világában</h2>
+
+  <div class="button-group" style="margin-top: 2rem;">
+    <button mat-raised-button color="primary" style="margin-right: 1rem;" (click)="changePage()">
+      Jegyzetelésre fel
+    </button>
+    
+    @if (!isLoggedIn) {
+      <button mat-flat-button [routerLink]="['/login']" class="button-group">Bejelentkezés</button>
+    }
+    
+    @if (isLoggedIn) {
+      <button mat-flat-button [routerLink]="['/profile']" class="button-group">Profil</button>
+    }
+  </div>
+</div>

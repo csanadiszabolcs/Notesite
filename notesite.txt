@@ -1,0 +1,239 @@
+import { Component, Input, OnInit, Output ,EventEmitter} from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
+import { DateFormPipe } from '../../Pipes/date.pipe';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { Note } from '../../interfaces/Note';
+import { TruncatePipe } from '../../Pipes/truncate.pipe';
+import { NoteService } from '../../shared/services/note.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+@Component({
+  selector: 'app-notesite',
+  imports: [FormsModule,CommonModule,DateFormPipe,TruncatePipe,MatCardModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatTableModule,MatIconModule,MatSelectModule,MatSliderModule,MatButtonToggleModule],
+  templateUrl: './notesite.component.html',
+  styleUrl: './notesite.component.scss',
+  standalone:true
+})
+
+export class NotesiteComponent implements OnInit {
+@Input() catogory:string  ='Jegyzeteim';
+@Output() noteAdding = new EventEmitter<Note>();
+
+newNote:String = '';
+newNoteTitle: string = '';
+newNoteContent: string = '';
+newNotePriority: 'Sürgős' | 'Nem sürgős' = "Sürgős";
+selectedIndex:number = 0;
+fontSize: number = 16;
+isLoading:boolean = false;
+selectedTheme: 'light' | 'dark' | 'colorful' = 'light';
+noteForm!: FormGroup;
+notes:Note[]=[];
+
+  taskService: any;
+  tasks: any;
+  highPriorityTasks: any;
+  tasksForNextWeek: any;
+  subscriptions: any;
+  
+constructor(
+    private noteService: NoteService,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+
+    this.loadNotes();
+    this.initializeForm();
+  }
+
+  initializeForm(): void {
+    this.noteForm = this.fb.group({
+      title: ['', Validators.required],
+      content: ['', [Validators.required, Validators.minLength(5)]],
+      priority: ['Sürgős', Validators.required]
+    });
+  }
+/*
+  loadNotes(): void {
+    const sub = this.noteService.getAllNotes().subscribe(notes => {
+      this.notes = notes;
+    });
+  }
+
+  addNote(): void {
+    if (this.noteForm.valid) {
+      this.isLoading = true;
+      const formValue = this.noteForm.value;
+      const newNote: Omit<Note, 'id'> = {
+        title: formValue.title,
+        content: formValue.content,
+        priority: formValue.priority,
+        dueDate: new Date().toString()
+      };
+
+      this.noteService.addNote(newNote)
+        .then(() => {
+          this.loadNotes();
+          this.noteForm.reset({ priority: 'Sürgős' });
+          this.showNotification('Jegyzet hozzáadva', 'success');
+        })
+        .catch(() => {
+          this.showNotification('Hiba történt a mentés során', 'error');
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    } else {
+      this.noteForm.markAllAsTouched();
+      this.showNotification('Kérlek tölts ki minden mezőt', 'warning');
+    }
+  }
+
+  deleteNote(noteId: string): void {
+    if (confirm('Biztosan törölni szeretnéd ezt a jegyzetet?')) {
+      this.isLoading = true;
+      this.noteService.deleteNote(noteId)
+        .then(() => {
+          this.loadNotes();
+          this.showNotification('Jegyzet törölve', 'success');
+        })
+        .catch(() => {
+          this.showNotification('Nem sikerült törölni a jegyzetet', 'error');
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
+  }
+
+  private showNotification(message: string, type: 'success' | 'error' | 'warning'): void {
+    this.snackBar.open(message, 'Bezár', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: [`snackbar-${type}`]
+    });
+  }
+
+*/
+loadNotes(): void {
+ this.noteService.getAllNotes().subscribe(notes =>{
+  this.notes = notes;
+ });
+}
+/*
+  loadAllTaskData(): void {
+
+    this.isLoading = true;
+    const allTasks$ = this.taskService.getAllTasks();
+    const highPriorityTasks$ = this.taskService.getHighPriorityPendingTasks();
+    const nextWeekTasks$ = this.taskService.getTasksForNextWeek();
+    
+    const combined$ = combineLatest([
+      allTasks$,
+      highPriorityTasks$,
+      nextWeekTasks$
+    ]);
+    
+    const subscription = combined$.subscribe({
+      next: ([allTasks]) => {
+        this.tasks = allTasks;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading tasks:', error);
+        this.isLoading = false;
+        this.showNotification('Error loading tasks', 'error');
+      }
+    });
+    
+    this.subscriptions.push(subscription);
+  }
+  showNotification(arg0: string, arg1: string) {
+    throw new Error('Method not implemented.');
+  }
+
+
+  addTask(): void {
+    if (this.noteAdding.valid) {
+      this.isLoading = true;
+      const formValue = this.taskForm.value;
+      const newTask: Omit<Task, 'id'> = {
+        name: formValue.name,
+        completed: false,
+        priority: formValue.priority,
+        dueDate: formValue.dueDate,
+        description: formValue.description || ''
+      };
+      
+      this.taskService.addTask(newTask)
+        .then(() => {
+          this.loadAllTaskData();
+          this.showNotification('Task added successfully', 'success');
+          this.taskForm.reset({
+            priority: 'High',
+            dueDate: new Date()
+          });
+        })
+        .catch(error => {
+          console.error('Error adding task:', error);
+          this.showNotification('Failed to add task', 'error');
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    } else {
+      Object.keys(this.taskForm.controls).forEach(key => {
+        const control = this.taskForm.get(key);
+        control?.markAsTouched();
+      });
+      this.showNotification('Please fill in all required fields correctly', 'warning');
+    }
+  }*/
+
+  // Jegyzet hozzáadása
+  addNote(): void {
+    if (this.newNoteTitle.trim() && this.newNoteContent.trim()) {
+      const newNotes: Note = {
+        id:new Date().toString(),
+        title: this.newNoteTitle.trim(),
+        content: this.newNoteContent.trim(),
+        priority: this.newNotePriority,
+        dueDate: new Date().toString()
+      };
+  
+      this.noteService.addNote(newNotes)
+      //this.saveNotes();
+      this.loadNotes();
+      // Mezők kiürítése
+      this.newNoteTitle ='';
+      this.newNoteContent='';
+    }
+  }
+  getPriorityClass(priority: string): string {
+    return priority === 'Sürgős' ? 'urgent' : 'not-urgent';
+  }
+  // Jegyzet törlése
+  deleteNote(index: string): void {
+    const confirmed = confirm('Biztosan törölni szeretnéd ezt a jegyzetet?');
+    if (confirmed) {
+      this.noteService.deleteNote(index);
+     // this.saveNotes();
+    }
+  }
+
+  trackById( item: Note): string {
+    return item.id;
+  }
+}

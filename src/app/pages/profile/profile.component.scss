@@ -1,0 +1,77 @@
+.profile-container {
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 50px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 35px;
+  margin:30px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #efb1b1;
+  padding-top: 5px;
+}
+
+.edit-btn {
+  display: block;
+  padding: 10px 20px;
+  background-color: #efb1b1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin: auto;
+}
+
+.edit-btn:hover {
+  background-color: #eec9c9;
+}
+
+@media (max-width: 600px) {
+  .profile-container {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .avatar {
+    margin: 0 auto 1rem auto;
+    width: 70px;
+    height: 70px;
+    font-size: 40px;
+  }
+
+  .user-info > div {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .edit-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+}

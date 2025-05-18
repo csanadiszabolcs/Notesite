@@ -1,0 +1,15 @@
+<div class="profile-container" style="max-width: 600px; margin: auto; padding: 1rem;">
+  
+    <!-- Profil megjelenítés -->
+    <mat-card class="mat-elevation-z4" style="margin-top: 1.5rem;">
+      <mat-card-header>
+        <div mat-card-avatar class="avatar-circle">{{ profileObject[selectedIndex].avatar }}</div>
+        <mat-card-title>{{ profileObject[selectedIndex].firstName }} {{ profileObject[selectedIndex].lastName }}</mat-card-title>
+        <mat-card-subtitle>{{ profileObject[selectedIndex].email }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Telefonszám:</strong> {{ profileObject[selectedIndex].phoneNumber }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

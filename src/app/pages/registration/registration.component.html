@@ -1,0 +1,52 @@
+<div class="container mat-elevation-z2" style="padding: 2rem; max-width: 500px; margin: auto;">
+  <h2 style="text-align: center;">Regisztrálás</h2>
+
+  @if (isLoading) {
+    <div class="container">
+      <h2>Regisztrálás folyamatban</h2>
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  }
+  @if (showForm) {
+  <form [formGroup]="signUpForm" class="loginform" (ngSubmit)="signup()" #registerForm="ngForm">
+    <div class="names" formGroupName="name">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Keresztnév</mat-label>
+      <input matInput type="text" formControlName="firstname" >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Vezetéknév</mat-label>
+      <input matInput type="text" formControlName="lastname">
+    </mat-form-field>
+  </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Jelszó (leg 6 karakter)</mat-label>
+      <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Jelszó újra (leg 6 karakter)</mat-label>
+      <input matInput type="password" formControlName="rePassword">
+      <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Telefonszám</mat-label>
+      <input matInput type="tel" formControlName="phonenumber">
+    </mat-form-field>
+
+    <div style="text-align: right; margin-top: 1.5rem;">
+      <button mat-raised-button color="primary" type="submit">
+        Regisztrálás
+      </button>
+      <button mat-flat-button [routerLink]="['/login']">Már regisztráltál?</button>
+    </div>
+
+  </form>
+}
+</div>

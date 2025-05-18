@@ -1,0 +1,59 @@
+.container {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    background-color: #ebdddd;
+    border-radius: 17px;
+    box-shadow: 0 1.5px 14px rgba(128, 10, 22, 0.2);
+    padding: 70px 60px;
+    margin: 130px 0px 0px 170px;
+    text-align: center;
+    justify-content: center;
+}
+.buttonNote {
+    background-color: #f1f1f1;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 70%;
+    display: flex;          
+    justify-content: center;
+    align-items: center; 
+    height: 80px; 
+    margin: 5px auto;
+    font-family:"Comic Sans MS", cursive, sans-serif;
+}
+.buttonNote:hover{
+    color: #eae6e6;
+    background-color: #cea7a7;
+    transition: all 0.5s linear;
+    font-family:"Comic Sans MS", cursive, sans-serif;
+}
+.titleHome{
+    color: #195153;
+    font-size: 25px;
+    font-family:"Comic Sans MS", cursive, sans-serif;
+}
+@media (max-width: 768px) {
+    .container {
+      width: 90%;
+      margin: 100px auto 0 auto;
+      padding: 40px 20px;
+    }
+  
+    .buttonNote {
+      width: 100%;
+      font-size: 16px;
+      height: auto;
+      padding: 12px;
+      text-align: center;
+    }
+  
+    .titleHome {
+      font-size: 20px;
+      text-align: center;
+    }
+  }

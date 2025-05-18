@@ -1,0 +1,82 @@
+<div class="notes-container" [ngClass]="selectedTheme">
+  <h1>Jegyzetelés</h1>
+  <!-- Jegyzet hozzáadása -->
+  <mat-card class="add-note">
+    <mat-form-field appearance="outline" class="note-title-input">
+      <mat-label>Cím</mat-label>
+      <input matInput [(ngModel)]="newNoteTitle" placeholder="Cím...">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="note-content-textarea">
+      <mat-label>Jegyzet tartalma</mat-label>
+      <textarea matInput rows="4" [(ngModel)]="newNoteContent" placeholder="Tartalom..."></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Prioritás</mat-label>
+      <mat-select [(ngModel)]="newNotePriority">
+        <mat-option value="Sürgős">Sürgős</mat-option>
+        <mat-option value="Nem sürgős">Nem sürgős</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="addNote()">Jegyzet hozzáadása</button>
+  </mat-card>
+
+  <!-- Betűméret szabályozó -->
+  <mat-card class="font-size-control">
+    <mat-label>Betűméret</mat-label>
+    <mat-slider><input matSliderThumb min="12" max="24" step="1" [(ngModel)]="fontSize"></mat-slider>
+    <span [ngStyle]="{'font-size.px': fontSize}">{{ fontSize }} px</span>
+  </mat-card>
+
+  <!-- Téma váltás -->
+  <mat-button-toggle-group [(ngModel)]="selectedTheme" class="button-group" appearance="standard">
+    <mat-button-toggle value="light">Light</mat-button-toggle>
+    <mat-button-toggle value="dark">Dark</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <!-- Jegyzetek listája -->
+  <mat-card class="notes-list">
+    <table mat-table [dataSource]="notes" class="mat-elevation-z2">
+      <!-- Cím oszlop -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Cím</th>
+        <td mat-cell *matCellDef="let note" [ngStyle]="{'font-size.px': fontSize}">{{ note.title }}</td>
+      </ng-container>
+
+      <!-- Tartalom oszlop -->
+      <ng-container matColumnDef="content">
+        <th mat-header-cell *matHeaderCellDef>Tartalom</th>
+        <td mat-cell *matCellDef="let note" [ngStyle]="{'font-size.px': fontSize}">
+          {{ note.content |truncate:80}}
+        </td>
+      </ng-container>
+
+      <!-- Prioritás -->
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef>Prioritás</th>
+        <td mat-cell *matCellDef="let note" [ngStyle]="{'font-size.px': fontSize}">{{ note.priority }}</td>
+      </ng-container>
+
+      <!-- Határidő -->
+      <ng-container matColumnDef="dueDate">
+        <th mat-header-cell *matHeaderCellDef>Dátum</th>
+        <td mat-cell *matCellDef="let note"[ngStyle]="{'font-size.px': fontSize}">{{ note.dueDate | dateform }}</td>
+      </ng-container>
+
+      <!-- Műveletek -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let note; let i = index">
+          <button mat-icon-button color="warn" (click)="deleteNote(note.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['title', 'content', 'priority', 'dueDate', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['title', 'content', 'priority', 'dueDate', 'actions'];"></tr>
+    </table>
+  </mat-card>
+</div>
